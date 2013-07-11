@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>{{classpost.title}}</title>
+{% endblock %}
+
+{% block header %}
+<link rel="stylesheet" type="text/css" href="/css/task-page.css" />
+
+<style>
+#top-panel, #footer-panel {
+	font-size: 1.15em;
+}
+
+</style>
+{% endblock %}
+
+
+{% block toppanel %}
+{% endblock %}
+
+{% block content %}
+
+<div id="content-header">
+	<div class="task-title">
+		{{classpost.title}}
+		
+	</div>
+</div>
+
+<div id="task-post">
+	<div id='task-top-info-box'>
+	
+	{% if classpost.preview_img_one %}
+	<div id="class-image">
+		<img src="/images?img_id={{classpost.key()}}"></img>
+	
+	</div>
+	{% endif %}
+	
+	</div>
+	
+	<div class="task-description">
+		<i class="icon-list-alt icon-fix"></i><label>訂單中包含什麼？ </label><br>
+		{{ classpost.render_description() | safe }}
+	</div>
+	
+	<div id="task-info">
+		
+		<div id="location">
+			<i class="icon-map-marker icon-fix"></i><label>地點: </label>
+			<a href="http://maps.google.com/?q={{classpost.location}}" target="_newtab">{{classpost.location}}</a>
+		</div>
+		
+		<div id="price">
+			<i class="icon-shopping-cart icon-fix"></i><label>價格: </label>&#36;{{classpost.price}}
+		</div>
+		
+	</div>
+	<div id="task-post-date">
+		<label>刊登於: </label>{{classpost.created.strftime("%r %b %d, %Y")}}
+	</div>
+	
+	
+</div>
+
+	<div id="class-price-tag">
+		<form action="/class/{{classpost.key().id()}}/payment">
+		  <fieldset>
+		    <br>
+		    數量
+		    <input type="text" name="quantity" placeholder="1" value="1">
+		    
+		    <input id="btn-buy" type="submit" value="現在網上訂購" >
+		  </fieldset>
+		</form>
+			<Legend></Legend>
+		<br>
+		<div class="hints"><i class="icon-ok icon-fix"></i> 下一步顯示細節</div>
+		<div class="hints"><i class="icon-ok icon-fix"></i> 退款保證</div>
+		
+		<br>
+		<div id="price-tag">
+			<i class="icon-shopping-cart icon-fix"></i><strong> 價格: &#36;{{classpost.price}} </strong>
+		</div>
+	</div>
+	
+	<div id="class-review-tag">
+		
+			<Legend>留意見</Legend>
+		<a href="/class/{{classpost.key().id()}}/review" id="btn-review">增加意見</a>
+		<br>
+		
+		
+	</div>
+	
+	<div id="additional-info">
+		<div class="section-tab tab-selected" data-tagname='box-applications' style="-webkit-border-top-left-radius: 8px;
+		-moz-border-radius-topleft: 8px;
+		border-top-left-radius: 8px;">評論 Reviews</div>
+		<div class="section-tab" data-tagname="box-message-board">留言板</div>
+		<div id="box-info">
+			<div id="box-applications">
+			{% if reviewslength == 0 %}
+				<p> 還沒有人發表評論</p>
+			{% endif %}
+			
+				{% for classpost_review in classpost_reviews %}
+				
+					{{ classpost_review.render_row() | safe }}
+				
+				{% endfor %}
+				
+			</div>
+			<div id="box-message-board">
+				{% for classpostmessage in classpostmessages %}
+				
+					{{classpostmessage.render_row() | safe }}
+					
+				{% endfor %}	
+				
+				{% if user_logged_in %}
+				<div class='message-box'>
+						
+						<form method="post">
+						<br/>
+						<textarea id="message-board-input" name="message-board-message" cols="50" rows="4" placeholder="minimum 10 characters"></textarea>
+						<br/>
+						<div class="hints">最少10個字符。 可問任何問題。</div>
+						<input type="submit" value="提交" />
+						<br>
+						</form>
+				</div>
+				{% endif %}
+				</div>
+			</div>
+			<div class="hr"></div>
+		</div>
+	</div>
+	
+{% endblock %}
+
+
+{% block scriptbottom %}
+<script src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript">
+/*
+$('.btn-ask-question').click(function(event) {
+	
+	
+	$('.message-box').css("display", "block");
+});
+*/
+$('.section-tab').click(function(event) {
+	var SelectedClass = $('.tab-selected');
+	var dataname = SelectedClass.data('tagname');
+	
+	var selectedtagname = "#" + dataname;
+	var tagname = "#" +$(this).data('tagname');
+	
+	$(tagname).css("display","block");
+	if (tagname != selectedtagname) {
+		$(this).addClass('tab-selected');
+		SelectedClass.removeClass("tab-selected");
+		$(selectedtagname).css('display', "none");
+	}
+});
+
+function initializeMap() {
+	var points = document.getElementById('geopoints').value.split(',')
+	var latitude = parseFloat(points[0])
+	var longitude = parseFloat(points[1])
+	var latlng = new google.maps.LatLng(latitude, longitude);
+	var myOptions = {
+		zoom: 14,
+		center: latlng,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+	
+	var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+	
+	var marker = new google.maps.Marker({
+		map: map,
+		draggable: false,
+		position: new google.maps.LatLng(latitude, longitude),
+		visible: true
+	});
+}
+
+
+
+$("#btn-delete").click( function(e) {
+	e.preventDefault();
+	if (confirm('Are you sure to delete it?')) {
+    	// Save it!
+		window.location = $(this).attr('href');
+	} else {
+	    // Do nothing!
+	}
+});
+
+$(".btn-accept").click( function(e) {
+	e.preventDefault();
+	if (confirm('Are you sure to accept this?')) {
+    	// Save it!
+		window.location = $(this).attr('href');
+	} else {
+	    // Do nothing!
+	}
+});
+
+</script>
+
+<script src="/js/jquery.raty.js"></script>
+<script>
+$('.star').raty({ 
+	readOnly: true, 
+	score: function() {
+    	return $(this).attr('data-score');
+	} 
+});
+</script>
+{% endblock %}

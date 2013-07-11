@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+		{% block title %}
+		{% endblock %}
+		<title>Experience 280</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="description" content="Experience 280.">
+		<meta name="keywords" content="Experience, online, class, classes, Hong Kong">
+		<link rel="stylesheet" type="text/css" href="/css/main.css">
+		<link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.css">
+		{% block header %}
+		{% endblock %}
+		
+	</head>
+	<body>
+		<div id="header-inner">
+		
+		<div id="top-panel">
+			
+			<div id="left-top-panel">
+				<h1 id="header-name"><a href="/">Experience 280</a> </h1>
+			</div>
+			
+				<div id="right-top-panel">
+					<a href="/"><i class="icon-home icon-white"></i> 首頁</a>
+					<a href="/classes/all"><i class="icon-list icon-white"></i> 瀏覽所有</a>
+					{% if user_logged_in %}
+					<a href="/myclasses"><i class="icon-search icon-white"></i> 我的購買</a>
+					<a href="/profile{{url_name}}"><i class="icon-user icon-white"></i> 個人資料</a>
+					<a href="/logout"><i class="icon-off icon-white"></i> ({{username}}) 登出</a>
+					{% else %}
+					
+					<a href="/login"><i class="icon-lock icon-white"></i> 登錄</a>
+					<a href="/signup"><i class="icon-edit icon-white"></i> 註冊</a>
+					<!--<a href="/signup/tasker">Become a Tasker</a>-->
+					{% endif %}
+				</div>
+				<div id="right-top-panel-btn">
+					<!--<a id="post-a-task" href="/post">Post A Class</a>-->
+				</div>
+		</div>
+		</div><!--end of header-inner-->
+		
+		<div id="top-menu" class="navbar navbar-inverse navbar-static-top">
+		<div id="inner-top-menu" class="navbar-inner">
+			<ul class="nav nav-pills">
+				{% if not user_logged_in %}
+				<li><a href="/signup"><i class="icon-tasks icon-white"></i> 註冊</a></li>
+				
+				{% endif %}
+				<li><a href="/how-it-works"><i class="icon-book icon-white"></i> 如何運作</a></li>
+				<li><a href="/see-sample"><i class="icon-th-list icon-white"></i> 參閱示例</a></li>
+			</ul>
+		</div>
+		</div>
+		
+		
+		<br>
+		<div id="notification"></div>
+			{% block toppanel %}
+			{% endblock %}
+		<div id="container">
+			{% block content %}
+			{% endblock %}
+		</div>
+		
+			{% block secondary %}
+			{% endblock %}
+			
+		<div id="footer">
+			<div id="footer-panel">
+			<ul>
+				<li><a href="/privacy-policy">隱私政策</a></li>
+				<li><a href="/disclaimer">免責聲明</a></li>
+				<li><a href="/how-it-works">如何運作</a></li>
+				<li><a href="/about">關於 Experience 280</a></li>
+				<li>Copyright © 2013 GoGoTask Limited</li>
+			</ul>
+			
+			</div>
+		</div>
+	{% block script%}
+	{% endblock %}
+	
+	<script>
+	entering_url = window.location.href;
+	
+	</script>
+	
+	<script src="/js/jquery-1.9.0.min.js"></script>
+	<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+	{% block scriptbottom %}
+	{% endblock %}
+	
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-39831402-1', 'gogotask.co');
+	  ga('send', 'pageview');
+
+	</script>
+	</body>
+	
+	
+	
+</html>

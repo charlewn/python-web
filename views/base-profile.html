@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+
+{% block toppanel %}
+<link rel="stylesheet" type="text/css" href="/css/profile.css">
+{% if User.username == current_username %}
+
+<div id="profile-top-panel">
+	<a href="/profile">帳戶資訊</a>
+	<a href="/myclasses">我的購買</a>
+	<!--<a href="/invite">邀請你的朋友</a>-->
+</div>
+
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% endblock %}

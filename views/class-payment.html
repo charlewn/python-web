@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block toppanel %}
+<link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.css">
+<style>
+
+input {
+	width: 200px !important;
+	display:inline-block;
+	position: relative;
+	float: right;
+	top:-110px;
+	right:20px;
+}
+
+#click-to-pay {
+	width: 200px !important;
+	display:block;
+	position: absolute;
+	float: right;
+	top:420px;
+	right:20px;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="content-header">
+	<h2>付款</h2>
+</div>
+<div id="content-main">
+	<div id="invoice" style="margin:12px;">
+	<table class="table table-bordered table-striped" style="height:300px;" >
+		<thead>
+		   <tr>
+		     <th>於</th>
+		     <th>描述</th>
+		     <th>付款方式</th>
+			 <th>數量</th>
+		     <th>總額</th>
+		   </tr>
+		</thead>
+		<tbody>
+		                <tr >
+		                  <td>{{classpost.created.strftime("%b %d, %Y")}}</td>
+		                  <td>{{classpost.title}}</td>
+		                  <td>網上</td>
+						  <td>{{quantity}}</td>
+		                  <td>$ {{class_amount}}</td>
+		                </tr>
+		                <tr>
+		                  <td> </td>
+		                  <td> </td>
+		                  <td> </td>
+						  <td> </td>
+		                  <td> </td>
+		                </tr>
+		                <tr>
+		                  <td> </td>
+		                  <td> </td>
+		                  <td> </td>
+						  <td> </td>
+		                  <td> </td>
+		                </tr>
+		                <tr>
+		                  <td> </td>
+		                  <td> </td>
+		                  <td> </td>
+		                  <td> </td>
+						  <td> </td>
+		                </tr>
+						
+		              </tbody>
+		
+	</table>
+	</div>
+<section id="receipt" >
+			
+			<p class="text-error">
+				信用卡或PayPal付款
+			</p>
+			<p class="text-error">
+			
+			</p>
+			<br>
+			<span class="label label-success">退款保證</span>
+</section>
+<form action='/set_ec' method="post">
+<input type='hidden' name='post_id' value="{{class_number}}" />
+<input type='hidden' name='price' value="{{class_amount}}" />
+
+<input type='image' name='submit' id='submitButton' 
+	   src='/static/images/express-checkout-hero.png' 
+	   border='0' align='top' alt='Check out with PayPal' width="200" class="btn" />
+	
+	<div id="click-to-pay">點擊立即付款</div>
+
+</form>
+
+<!-- PayPal Logo --><table border="0" cellpadding="10" cellspacing="0" align="left"><tr><td align="center"></td></tr><tr><td align="center"><a href="https://www.paypal.com/webapps/mpp/paypal-popup" title="How PayPal Works" onclick="javascript:window.open('https://www.paypal.com/webapps/mpp/paypal-popup','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;"><img src="https://www.paypalobjects.com/webstatic/mktg/logo/AM_SbyPP_mc_vs_dc_ae.jpg" border="0" alt="PayPal Acceptance Mark"></a></td></tr></table><!-- PayPal Logo -->
+
+</div>
+
+<div>
+	
+</div>
+{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript" src="https://www.paypalobjects.com/js/external/dg.js"></script>
+<script>
+
+/*$(".block-credit").click( function(e) {
+	$("input",this).attr("checked","checked");
+});
+
+var dg = new PAYPAL.apps.DGFlow({
+trigger: "submitButton"
+});*/
+</script>
+{% endblock %}
