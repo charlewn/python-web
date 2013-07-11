@@ -36,7 +36,7 @@ SANDBOX_ADD_NVP_PARAMS = {
 }
 
 
-seller_email = 'foonlife@gmail.com'
+seller_email = 'xxxxxxxx@gmail.com'
 
 
 class ProceedToPaymentHandler(Handler.Handler):
